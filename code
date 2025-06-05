@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NPC Spawner</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #222;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background: #28a745;
+      color: white;
+      margin-bottom: 20px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    #npc-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      max-width: 800px;
+      justify-content: center;
+    }
+
+    .npc {
+      background: #333;
+      border: 2px solid #555;
+      border-radius: 10px;
+      padding: 15px;
+      width: 150px;
+      box-shadow: 0 0 8px #28a745;
+      text-align: center;
+      position: relative;
+    }
+
+    .npc h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .npc p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #dc3545;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      width: 22px;
+      height: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 20px;
+      font-size: 16px;
+    }
+    .remove-btn:hover {
+      background: #b02a37;
+    }
+  </style>
+</head>
+<body>
+  <h1>NPC Spawner</h1>
+  <button id="spawnBtn">Spawn NPC</button>
+
+  <div id="npc-container"></div>
+
+  <script>
+    const npcContainer = document.getElementById('npc-container');
+    const spawnBtn = document.getElementById('spawnBtn');
+
+    // Sample NPC names and roles
+    const npcNames = ['Alaric', 'Bryn', 'Cora', 'Dax', 'Elara', 'Fynn', 'Gwen', 'Hale', 'Isla', 'Jax'];
+    const npcRoles = ['Warrior', 'Mage', 'Archer', 'Healer', 'Rogue', 'Guard', 'Merchant', 'Blacksmith'];
+
+    // Utility function to get random element from an array
+    function getRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Function to create NPC element
+    function createNPC() {
+      const npc = document.createElement('div');
+      npc.classList.add('npc');
+
+      // Random properties
+      const name = getRandom(npcNames);
+      const role = getRandom(npcRoles);
+      const health = Math.floor(Math.random() * 50) + 50;  // Health between 50-100
+      const strength = Math.floor(Math.random() * 20) + 5; // Strength 5-25
+
+      npc.innerHTML = `
+        <button class="remove-btn" title="Remove NPC">&times;</button>
+        <h3>${name}</h3>
+        <p><strong>Role:</strong> ${role}</p>
+        <p><strong>Health:</strong> ${health}</p>
+        <p><strong>Strength:</strong> ${strength}</p>
+      `;
+
+      // Remove NPC on click of remove button
+      npc.querySelector('.remove-btn').addEventListener('click', () => {
+        npc.remove();
+      });
+
+      return npc;
+    }
+
+    // Spawn NPC on button click
+    spawnBtn.addEventListener('click', () => {
+      const newNPC = createNPC();
+      npcContainer.appendChild(newNPC);
+    });
+  </script>
+</body>
